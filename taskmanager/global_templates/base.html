@@ -1,0 +1,61 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta-charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <title>TaskManager</title> -->
+        <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+        <link href="https://fonts.googleapis.com/css?family=Arvo|Tangerine" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+        <header>
+            {% if user.is_authenticated %}
+            <div class="row">
+                <h1 class="title"><a href="{% url 'users:new-team' %}">TaskManager</a></h1>
+            </div>
+            <div class="row"> 
+            <div class="col-md-7">
+                <p class="line">Create and Manage Tasks</p>
+            </div>
+            <nav class="navi col-md-5">
+                <span>Logged In as {{ user.username }}</span>
+                <!-- <form class="" action="{% url 'users:logout' %}" method="POST">
+                    {% csrf_token %} -->
+                <a href="{% url 'users:logout' %}"><input type="submit" class="btn btn-info" value="Log Out"></a>
+                <!-- </form> -->
+            </nav>
+            </div>  
+            {% else %}
+            <div class="row">                   
+                <h1 class="title"><a href="{% url 'users:new-team' %}">TaskManager</a></h1>
+            </div>
+            <div class="row"> 
+                <div class="col-md-7">
+                    <p class="line">Login to Create and Manage Tasks.</p>
+                </div>
+                <br>
+                <div class="nav col-md-5">
+                    <!-- <form class="col-md-6" action="{% url 'users:login' %}" method="POST">
+                        {% csrf_token %} -->
+                    <a href="{% url 'users:login' %}"><input type="submit" class="btn btn-info" value="Log In"></a>    
+                    <!-- </form> -->
+                    <!-- <form class="col-md-6" action="{% url 'users:signup' %}" method="POST">
+                        {% csrf_token %} -->
+                    <a href="{% url 'users:signup' %}"><input type="submit" class="btn btn-info" value="Sign Up"></a>
+                    <!-- </form> -->
+                </div>
+            </div>
+            {% endif %}
+        </header>        
+        <div class="wrap">
+            {% block one %}
+            {% endblock %}
+        </div>
+        </div>
+    </body>
+</html>

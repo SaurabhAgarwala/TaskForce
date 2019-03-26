@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Team Create Page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block one %}
+<title>Create Team</title>
+
 <body>
     <h1 id="detailhead">Create Team</h1>
     <form class="team_create_form" action="{% url 'users:new-team' %}" method="post">
@@ -13,4 +13,4 @@
         <input type="submit" value="New Team Created">
     </form>
 </body>
-</html>
+{% endblock %}

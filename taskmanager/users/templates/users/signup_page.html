@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Signup Page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+{% extends 'base.html' %}
+{% load staticfiles %}
+<title>Signup Page</title>
+
+{% block one %}
 <body>
     <form class="signup_form" action="{% url 'users:signup' %}" method="post">t
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_p }}
         <input type="submit" value="Sign Up">
     </form>    
 </body>
-</html>
+{% endblock %}
