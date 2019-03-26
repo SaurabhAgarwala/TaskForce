@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <form class="signup_form" action="{% url 'users:signup' %}" method="post">
+    <form class="signup_form" action="{% url 'users:signup' %}" method="post">t
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Sign Up">

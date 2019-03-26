@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Team Create Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <h1 id="detailhead">Create Team</h1>
+    <form class="team_create_form" action="{% url 'users:new-team' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="New Team Created">
+    </form>
+</body>
+</html>
