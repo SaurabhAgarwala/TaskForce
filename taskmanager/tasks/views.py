@@ -9,11 +9,11 @@ def create_task(request):
     if request.method == 'POST':
         form = forms.TaskForm(request.POST)
         if form.is_valid():
-            s_instance = form.save(commit=False)
-            s_instance.created_by =  request.user
+            s_instance = form.save()
+            s_instance.created_by =  request.user.username
             s_instance.save()
         # return render(request, 'users/post_url.html', {'e_url':e_url})
         return HttpResponse("Task Successfully created")
     else:
         form = forms.TaskForm
-    return render(request, 'users/task_create.html', {'form':form})
+    return render(request, 'tasks/task_create.html', {'form':form})

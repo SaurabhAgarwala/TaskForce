@@ -31,19 +31,23 @@ def login_view(request):
     return render(request, 'users/login_page.html', {'form':form})
 
 def logout_view(request):
-    if request.method == 'POST':
         logout(request)
-        return HttpResponse("Logged Out Successfully")
+        return redirect('users:new-team')
 
 def create_team(request):
     if request.method == 'POST':
         form = forms.TeamForm(request.POST)
+        members = request.POST.get('users')
+        # print(type(members))
+        # print(len(members))
+        # print(members)
         if form.is_valid():
-            s_instance = form.save(commit=False)
-            s_instance.created_by =  request.user
+            s_instance = form.save()
+            s_instance.created_by =  request.user.username
+            # s_instance.users = members
             s_instance.save()
         # return render(request, 'users/post_url.html', {'e_url':e_url})
-        return HttpResponse("Team Successfully created")
+        return redirect('tasks:new-task')
     else:
         form = forms.TeamForm
     return render(request, 'users/team_create.html', {'form':form})

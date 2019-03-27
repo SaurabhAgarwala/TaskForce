@@ -4,7 +4,7 @@ from . import models
 class TaskForm(forms.ModelForm):
     class Meta:
         model = models.Task
-        fields = ['title', 'description', 'assignee', 'created_by']
+        fields = ['title', 'description', 'assignee', 'status']
 
 # class PostEditForm(forms.ModelForm):
 #     class Meta:
