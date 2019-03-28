@@ -4,7 +4,10 @@ from . import models
 class TaskForm(forms.ModelForm):
     class Meta:
         model = models.Task
-        fields = ['title', 'description', 'assignee', 'status']
+        fields = ['title', 'description', 'team', 'assignee', 'deadline', 'status']
+        widgets = {
+            'deadline': forms.TextInput(attrs={'placeholder': 'YYYY-MM-DD'}),
+        }
 
 class CommentForm(forms.ModelForm):
 

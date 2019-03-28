@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+<title>Task Manager</title>
+
+{% block one %}
+<body>
+    <h1 id="detailhead">Welcome {{ user.username }}</h1>
+    <a href="{% url 'tasks:new-task' %}">Create a new task</a>
+    <a href="{% url 'users:new-team' %}">Create a new team</a>
+    <div>
+        <p>Tasks assigned to you:</p>
+        <ul>
+        {% for task in tasks %}
+            <li>{{ task }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+</body>
+{% endblock %}

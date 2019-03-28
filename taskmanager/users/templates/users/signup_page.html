@@ -1,10 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'base1.html' %}
 {% load staticfiles %}
+
 <title>Signup Page</title>
 
 {% block one %}
 <body>
-    <form class="signup_form" action="{% url 'users:signup' %}" method="post">t
+    <form class="signup_form" action="{% url 'users:signup' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Sign Up">

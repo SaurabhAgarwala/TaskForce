@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 # from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-# from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from . import forms
 from .models import Task, Comment
 
 # Create your views here.
+
+@login_required(login_url="{% url 'login' %}")
 def create_task(request):
     if request.method == 'POST':
         form = forms.TaskForm(request.POST)
@@ -19,6 +21,7 @@ def create_task(request):
         form = forms.TaskForm
     return render(request, 'tasks/task_create.html', {'form':form})
 
+@login_required(login_url="{% url 'login' %}")
 def comment(request, num):
     task = Task.objects.get(id=num)
     if request.method == 'GET':
@@ -35,6 +38,7 @@ def comment(request, num):
             return HttpResponse('Comment Added')
     return render(request, 'tasks/comment.html', {'task_id':num,'form':form})
 
+@login_required(login_url="{% url 'login' %}")
 def commentreply(request, num):
     comment = Comment.objects.get(id=num)
     if request.method == 'GET':

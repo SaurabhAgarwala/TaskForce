@@ -16,8 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import url, include
+from users import views
 
 urlpatterns = [
+    url(r'^$', views.login_view, name="login"),
     url(r'^admin/', admin.site.urls),
     url(r'^users/', include('users.urls')),
     url(r'^tasks/', include('tasks.urls')),

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from users.models import Team
 
 # Create your models here.
 STATUS = (
@@ -9,11 +10,13 @@ STATUS = (
 )
 
 class Task(models.Model):
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=100)
     description = models.TextField()
     assignee = models.ManyToManyField(User)
     status = models.CharField(max_length=15,choices=STATUS, default='Planned')
-    created_by = models.CharField(max_length=100)
+    deadline = models.DateField(blank=True, null=True)   # '%Y-%m-%d %H:%M',  '2006-10-25 14:30'      
+    created_by = models.CharField(max_length=100) 
     created_on = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

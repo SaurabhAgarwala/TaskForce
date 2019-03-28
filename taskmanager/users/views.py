@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from . import forms
 
@@ -14,7 +15,8 @@ def signup_view(request):
             return HttpResponse("User Created Successfully")
     else:
         form = UserCreationForm()
-    return render(request, 'users/signup_page.html', {'form':form})
+    context = {'form':form}
+    return render(request, 'users/signup_page.html', context)
 
 def login_view(request):
     if request.method == 'POST':
@@ -25,15 +27,17 @@ def login_view(request):
             if 'next' in request.POST:
                 return redirect(request.POST.get('next'))
             else:
-                return HttpResponse("Logged In Successfully")
+                return HttpResponse("Logged In Successfully")           #modify this
     else:
         form = AuthenticationForm()
-    return render(request, 'users/login_page.html', {'form':form})
+    context = {'form':form}    
+    return render(request, 'homepage.html', context)
 
 def logout_view(request):
         logout(request)
-        return redirect('users:new-team')
+        return redirect('login')
 
+@login_required(login_url="/")
 def create_team(request):
     if request.method == 'POST':
         form = forms.TeamForm(request.POST)
@@ -50,4 +54,22 @@ def create_team(request):
         return redirect('tasks:new-task')
     else:
         form = forms.TeamForm
-    return render(request, 'users/team_create.html', {'form':form})
+    context = {'form':form}
+    return render(request, 'users/team_create.html', context)
+
+@login_required(login_url="/")
+def userpage(request):
+    user = request.user
+    teams = user.team_set.all()
+    tasks = user.task_set.all()
+    
+    # print(teams)
+    # print(user)
+    # print(tasks)
+    context = {
+        'user': user,
+        'teams': teams,
+        'tasks': tasks
+    }
+    # return render(request, 'users/userpage.html', context)
+    return HttpResponse('Userpage tested')

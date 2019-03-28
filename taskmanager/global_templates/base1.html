@@ -1,0 +1,33 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta-charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <title>TaskManager</title> -->
+        <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+        <link href="https://fonts.googleapis.com/css?family=Arvo|Tangerine" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+        <header>
+            <div class="row">
+                <h1 class="title"><a href="{% url 'users:new-team' %}">TaskManager</a></h1>
+            </div>
+            <div class="row"> 
+            <div class="col-md-7">
+                <p class="line">Create and Manage Tasks</p>
+            </div>
+            </div>  
+        </header>        
+        <div class="wrap">
+            {% block one %}
+            {% endblock %}
+        </div>
+        </div>
+    </body>
+</html>
