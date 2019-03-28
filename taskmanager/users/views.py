@@ -27,7 +27,7 @@ def login_view(request):
             if 'next' in request.POST:
                 return redirect(request.POST.get('next'))
             else:
-                return HttpResponse("Logged In Successfully")           #modify this
+                return redirect('userpage') #modify this.
     else:
         form = AuthenticationForm()
     context = {'form':form}    

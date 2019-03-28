@@ -9,8 +9,8 @@ class TaskForm(forms.ModelForm):
             'deadline': forms.TextInput(attrs={'placeholder': 'YYYY-MM-DD'}),
         }
 
-class TeamForm(forms.ModelForm):
-    def __init__(self,teams, *args, **kwargs):
+class GetTeamForm(forms.ModelForm):
+    def __init__(self, teams, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['team'].queryset = teams
 
@@ -21,8 +21,11 @@ class TeamForm(forms.ModelForm):
         model = models.Task
         fields = ['team']
 
+class PostTeamForm(forms.ModelForm):
+    class Meta:
+        model = models.Task
+        fields = ['team']
         
-
 class CommentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):

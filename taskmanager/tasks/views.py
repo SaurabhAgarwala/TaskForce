@@ -17,10 +17,15 @@ def create_task(request):
             if form.is_valid():
                 s_instance = form.save()
                 s_instance.created_by =  request.user.username
-                s_instance.assignee = request.user
-                s_instance.team = None
+                s_instance.assignee = [user]
                 s_instance.save()
                 return redirect('users:userpage')
+        else:
+            form = forms.PostTeamForm(request.POST)
+            if form.is_valid():
+                print('valid')
+                team = form.cleaned_data['team']
+            return HttpResponse("Done")
         # else:
         #     form = forms.TeamForm()
         # form = forms.TaskForm(request.POST)
@@ -34,7 +39,7 @@ def create_task(request):
             form = forms.TaskForm()
             return render(request, 'tasks/task_create.html', {'form':form})
         else:
-            form = forms.TeamForm(teams)
+            form = forms.GetTeamForm(teams)
             return render(request, 'tasks/teamtask_create.html', {'form':form})
     #     form = forms.TaskForm
     # return render(request, 'tasks/task_create.html', {'form':form})
