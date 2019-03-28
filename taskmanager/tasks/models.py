@@ -18,3 +18,27 @@ class Task(models.Model):
     
     def __str__(self):
         return self.title
+
+class Comment(models.Model):
+    task = models.ForeignKey(Task)
+    user = models.ForeignKey(User)
+    title = models.CharField(max_length=50)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return 'Comment on %s by %s' % (self.task.title, self.user.username)
+
+class CommentReply(models.Model):
+    comment = models.ForeignKey(Comment)
+    user = models.ForeignKey(User)
+    content = models.TextField()                                                                      
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return 'Reply to %s' % (self.comment)
+
+    class Meta:
+        verbose_name_plural = 'Comment Replies'
+
+
