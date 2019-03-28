@@ -10,12 +10,12 @@ STATUS = (
 )
 
 class Task(models.Model):
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True)
+    team = models.ForeignKey(Team,on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=100)
     description = models.TextField()
     assignee = models.ManyToManyField(User)
     status = models.CharField(max_length=15,choices=STATUS, default='Planned')
-    deadline = models.DateField(blank=True, null=True)   # '%Y-%m-%d %H:%M',  '2006-10-25 14:30'      
+    deadline = models.DateField(blank=True, null=True)   
     created_by = models.CharField(max_length=100) 
     created_on = models.DateTimeField(auto_now_add=True)
     

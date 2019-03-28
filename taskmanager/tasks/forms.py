@@ -4,10 +4,24 @@ from . import models
 class TaskForm(forms.ModelForm):
     class Meta:
         model = models.Task
-        fields = ['title', 'description', 'team', 'assignee', 'deadline', 'status']
+        fields = ['title', 'description', 'deadline', 'status']
         widgets = {
             'deadline': forms.TextInput(attrs={'placeholder': 'YYYY-MM-DD'}),
         }
+
+class TeamForm(forms.ModelForm):
+    def __init__(self,teams, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['team'].queryset = teams
+
+    def clean(self):
+        return self.cleaned_data
+
+    class Meta:
+        model = models.Task
+        fields = ['team']
+
+        
 
 class CommentForm(forms.ModelForm):
 

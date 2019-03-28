@@ -7,21 +7,39 @@ from .models import Task, Comment
 
 # Create your views here.
 
-@login_required(login_url="{% url 'login' %}")
+@login_required(login_url="/")
 def create_task(request):
+    user = request.user
+    teams = user.team_set.all()
     if request.method == 'POST':
-        form = forms.TaskForm(request.POST)
-        if form.is_valid():
-            s_instance = form.save()
-            s_instance.created_by =  request.user.username
-            s_instance.save()
-        # return render(request, 'users/post_url.html', {'e_url':e_url})
-        return HttpResponse("Task Successfully created")
+        if len(teams)==0:
+            form = forms.TaskForm(request.POST)
+            if form.is_valid():
+                s_instance = form.save()
+                s_instance.created_by =  request.user.username
+                s_instance.assignee = request.user
+                s_instance.team = None
+                s_instance.save()
+                return redirect('users:userpage')
+        # else:
+        #     form = forms.TeamForm()
+        # form = forms.TaskForm(request.POST)
+        # if form.is_valid():
+        #     s_instance = form.save()
+        #     s_instance.created_by =  request.user.username
+        #     s_instance.save()
+        # return HttpResponse("Task Successfully created")
     else:
-        form = forms.TaskForm
-    return render(request, 'tasks/task_create.html', {'form':form})
+        if len(teams)==0:
+            form = forms.TaskForm()
+            return render(request, 'tasks/task_create.html', {'form':form})
+        else:
+            form = forms.TeamForm(teams)
+            return render(request, 'tasks/teamtask_create.html', {'form':form})
+    #     form = forms.TaskForm
+    # return render(request, 'tasks/task_create.html', {'form':form})
 
-@login_required(login_url="{% url 'login' %}")
+@login_required(login_url="/")
 def comment(request, num):
     task = Task.objects.get(id=num)
     if request.method == 'GET':
@@ -38,7 +56,7 @@ def comment(request, num):
             return HttpResponse('Comment Added')
     return render(request, 'tasks/comment.html', {'task_id':num,'form':form})
 
-@login_required(login_url="{% url 'login' %}")
+@login_required(login_url="/")
 def commentreply(request, num):
     comment = Comment.objects.get(id=num)
     if request.method == 'GET':
