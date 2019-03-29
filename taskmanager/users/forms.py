@@ -1,5 +1,6 @@
 from django import forms
-from .models import User, Team
+from .models import Team
+from django.contrib.auth.models import User
 
 class TeamForm(forms.ModelForm):
     class Meta:
@@ -10,7 +11,7 @@ class TeamForm(forms.ModelForm):
     def __init__ (self, *args, **kwargs):
         super(TeamForm, self).__init__(*args, **kwargs)
         self.fields["users"].widget = forms.widgets.CheckboxSelectMultiple()
-        self.fields["users"].help_text = "Members of the team"
+        # self.fields["users"].help_text = "Members of the team"
         self.fields["users"].queryset = User.objects.all()
         
 # class PostEditForm(forms.ModelForm):

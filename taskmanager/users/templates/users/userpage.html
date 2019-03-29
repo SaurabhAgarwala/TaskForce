@@ -9,12 +9,34 @@
     <a href="{% url 'tasks:new-task' %}">Create a new task</a>
     <a href="{% url 'users:new-team' %}">Create a new team</a>
     <div>
-        <p>Tasks assigned to you:</p>
-        <ul>
-        {% for task in tasks %}
-            <li>{{ task }}</li>
+        {% if tasks %}
+            <p>The following are the tasks that you have been assigned. Click on any of the task to get more details about it.</p>
+            <ul>
+            {% for task in tasks %}   <!--  Assign link to tasks -->
+                <li>{{ task.title }}{% if task.team %} - {{ task.team }}{% endif %}.
+                    {% if task.deadline %} To be completed by {{ task.deadline }} {% endif %}.
+                    Assigned by - {{ task.created_by }}. 
+                    Current Status - {{ task.status }}
+                </li>
+            {% endfor %}
+            </ul>   
+        {% else %}
+            <p>You have been assigned no tasks</p>
+        {% endif %}
+    </div>
+    <div>
+        {% if teams %}
+            <p>You are a member of the following teams. Click on any of the team to see the tasks in that team.</p>
+        {% for team in teams %}
+        <li>
+            <a href="{% url 'users:team-disp' id=team.id %}">{{ team.name }}</a>
+        </li>
         {% endfor %}
-        </ul>
+        {% else %}
+        <p>
+            You are not a member of any team.
+        </p>
+        {% endif %}
     </div>
 </body>
 {% endblock %}

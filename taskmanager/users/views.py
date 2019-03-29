@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from . import forms
+from .models import Team
 
 # Create your views here.
 def signup_view(request):
@@ -63,13 +64,23 @@ def userpage(request):
     teams = user.team_set.all()
     tasks = user.task_set.all()
     
-    # print(teams)
-    # print(user)
-    # print(tasks)
     context = {
         'user': user,
         'teams': teams,
         'tasks': tasks
     }
-    # return render(request, 'users/userpage.html', context)
-    return HttpResponse('Userpage tested')
+    return render(request, 'users/userpage.html', context)
+
+@login_required(login_url="/")
+def team_display(request,id):  
+    team = Team.objects.get(pk=id)
+    users = team.users.all()
+    print(users)
+    tasks = team.task_set.all()
+    context = {
+        'user': request.user,
+        'team': team,
+        'users': users,
+        'tasks': tasks
+    }
+    return render(request, 'users/team_display.html', context)

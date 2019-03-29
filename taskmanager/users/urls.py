@@ -9,4 +9,6 @@ urlpatterns = [
    url(r'^logout/$', views.logout_view, name="logout"),
    url(r'^newteam/$', views.create_team, name="new-team"),
    url(r'^userpage/$', views.userpage, name="userpage"),
+   url(r'^teamdisplay/(?P<id>[\w-]+)/$', views.team_display, name="team-disp"),
+
 ]   
