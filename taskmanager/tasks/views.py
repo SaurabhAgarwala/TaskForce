@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-# from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from . import forms
 from .models import Task, Comment
+from users.models import Team
 
 # Create your views here.
 
@@ -13,7 +13,7 @@ def create_task(request):
     teams = user.team_set.all()
     if request.method == 'POST':
         if len(teams)==0:
-            form = forms.TaskForm(request.POST)
+            form = forms.TeamlessTaskForm(request.POST)
             if form.is_valid():
                 s_instance = form.save()
                 s_instance.created_by =  request.user.username
@@ -23,26 +23,35 @@ def create_task(request):
         else:
             form = forms.PostTeamForm(request.POST)
             if form.is_valid():
-                print('valid')
                 team = form.cleaned_data['team']
-            return HttpResponse("Done")
-        # else:
-        #     form = forms.TeamForm()
-        # form = forms.TaskForm(request.POST)
-        # if form.is_valid():
-        #     s_instance = form.save()
-        #     s_instance.created_by =  request.user.username
-        #     s_instance.save()
-        # return HttpResponse("Task Successfully created")
+                if team == None:
+                    form = forms.TeamlessTaskForm()
+                    return render(request, 'tasks/task_create.html', {'form':form})
+                else:
+                    team_obj = Team.objects.get(name=team)
+                    form = forms.GetTeamTaskForm(team_obj.users)
+                    return render(request, 'tasks/teamtask_create.html', {'form':form, 'team':team})
     else:
         if len(teams)==0:
-            form = forms.TaskForm()
+            form = forms.TeamlessTaskForm()
             return render(request, 'tasks/task_create.html', {'form':form})
         else:
             form = forms.GetTeamForm(teams)
-            return render(request, 'tasks/teamtask_create.html', {'form':form})
-    #     form = forms.TaskForm
-    # return render(request, 'tasks/task_create.html', {'form':form})
+            return render(request, 'tasks/post_teamtask_create.html', {'form':form})
+
+@login_required(login_url="/")
+def create_teamtask(request):
+    if request.method == 'POST':
+        form = forms.PostTeamTaskForm(request.POST)
+        if form.is_valid():
+            s_instance = form.save()
+            s_instance.created_by =  request.user.username
+            team = request.POST.get('team')
+            team_obj = Team.objects.get(name=team)
+            s_instance.team = team_obj
+            s_instance.save()
+        return redirect('users:userpage')
+    
 
 @login_required(login_url="/")
 def comment(request, num):

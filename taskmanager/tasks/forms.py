@@ -1,13 +1,31 @@
 from django import forms
 from . import models
 
-class TaskForm(forms.ModelForm):
+class TeamlessTaskForm(forms.ModelForm):
     class Meta:
         model = models.Task
         fields = ['title', 'description', 'deadline', 'status']
         widgets = {
             'deadline': forms.TextInput(attrs={'placeholder': 'YYYY-MM-DD'}),
         }
+
+class GetTeamTaskForm(forms.ModelForm):
+    def __init__(self, users, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["assignee"].widget = forms.widgets.CheckboxSelectMultiple()
+        self.fields['assignee'].queryset = users
+   
+    class Meta:
+        model = models.Task
+        fields = ['title', 'description', 'deadline', 'status', 'assignee']
+        widgets = {
+            'deadline': forms.TextInput(attrs={'placeholder': 'YYYY-MM-DD'}),
+        }
+
+class PostTeamTaskForm(forms.ModelForm):
+    class Meta: 
+        model = models.Task
+        exclude = ['team','created_by','created_on']
 
 class GetTeamForm(forms.ModelForm):
     def __init__(self, teams, *args, **kwargs):

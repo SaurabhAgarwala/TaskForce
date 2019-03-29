@@ -7,11 +7,10 @@
 
 <body>
     <h1 id="detailhead">Create Task</h1>
-    <form class="task_create_form" action="{% url 'tasks:new-teamtask' %}" method="post">
+    <form class="task_create_form" action="{% url 'tasks:new-task' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Create New Task">
-        <input name="team" type="hidden" value="{{ team }}">
+        <input type="submit" value="Select Team">
     </form>
 </body>
 {% endblock %}
