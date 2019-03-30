@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block one %}
+<title>Message Page - Task Manager</title>
+
+<body>
+    <h1 id="detailhead">Message Page</h1>
+    <div>
+        <h3>{{ message }}</h3>
+    </div>
+    <div>
+        <a href="{% url 'users:userpage' %}">Click Here to return to the User Homepage.</a>
+    </div>
+</body>
+{% endblock %}

@@ -14,7 +14,14 @@ class TeamForm(forms.ModelForm):
         # self.fields["users"].help_text = "Members of the team"
         self.fields["users"].queryset = User.objects.all()
         
-# class PostEditForm(forms.ModelForm):
-#     class Meta:
-#         model = models.Content
-#         fields = ['body']
+class TeamEditForm(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = ['name', 'users']
+
+    def __init__ (self, *args, **kwargs):
+        super(TeamEditForm, self).__init__(*args, **kwargs)
+        self.fields["users"].widget = forms.widgets.CheckboxSelectMultiple()
+        # self.fields["users"].help_text = "Members of the team"
+        self.fields["users"].queryset = User.objects.all()
+        

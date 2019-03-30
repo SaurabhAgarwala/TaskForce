@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block one %}
+<title>Edit Team</title>
+
+<body>
+    <h1 id="detailhead">Edit Team</h1>
+    <form class="team_edit_form" action="{% url 'users:team-edit' id=team.pk %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Edit Team">
+    </form>
+</body>
+{% endblock %}

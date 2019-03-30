@@ -42,7 +42,6 @@ def logout_view(request):
 def create_team(request):
     if request.method == 'POST':
         form = forms.TeamForm(request.POST)
-        members = request.POST.get('users')
         # print(type(members))
         # print(len(members))
         # print(members)
@@ -84,3 +83,46 @@ def team_display(request,id):
         'tasks': tasks
     }
     return render(request, 'users/team_display.html', context)
+
+@login_required(login_url="/")
+def team_edit(request, id):  
+    team = Team.objects.get(pk=id)
+    if team.created_by != request.user.username:
+        context = {
+            'message': 'You are not allowed to access this page' 
+        }
+        return render(request, 'message.html', context)
+    if request.method == 'POST':
+        form = forms.TeamEditForm(request.POST)
+        # print(type(members))(
+        # print(len(members))
+        # print(members)
+        team.delete()
+        if form.is_valid():
+            s_instance = form.save()
+            s_instance.created_by =  request.user.username
+            # s_instance.users = members
+            s_instance.save()
+        # return render(request, 'users/post_url.html', {'e_url':e_url})
+        context = {
+            'message': 'Team successfully edited.' 
+        }
+        return render(request, 'message.html', context)
+    else:
+        form = forms.TeamEditForm(instance=team)
+        context = {'form':form, 'team': team}
+        return render(request, 'users/team_edit.html', context)
+
+@login_required(login_url="/")
+def team_delete(request, id):
+    team = Team.objects.get(id=id)
+    if team.created_by != request.user.username:
+        context = {
+            'message': 'You are not allowed to access this page' 
+        }
+        return render(request, 'message.html', context)
+    team.delete()
+    context = {
+        'message': 'Team successfully deleted.' 
+    }
+    return render(request, 'message.html', context)

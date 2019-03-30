@@ -10,5 +10,6 @@ urlpatterns = [
    url(r'^newteam/$', views.create_team, name="new-team"),
    url(r'^userpage/$', views.userpage, name="userpage"),
    url(r'^teamdisplay/(?P<id>[\w-]+)/$', views.team_display, name="team-disp"),
-
+   url(r'^teamedit/(?P<id>[\w-]+)/$', views.team_edit, name="team-edit"),
+   url(r'^teamdelete/(?P<id>[\w-]+)/$', views.team_delete, name="team-delete"),
 ]   

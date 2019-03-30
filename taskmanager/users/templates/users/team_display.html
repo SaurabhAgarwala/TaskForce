@@ -8,6 +8,8 @@
     <a href="{% url 'users:userpage' %}">Go Back To User HomePage</a>
     {% ifequal team.created_by user.username %}
         <p>This team was created by you on {{ team.created_on }}</p>
+        <a href="{% url 'users:team-edit' id=team.pk %}"><input type="button" value="Edit this team"></a>
+        <a href="{% url 'users:team-delete' id=team.pk %}"><input type="button" value="Delete this team"></a>
     {% else %}
         <p>This team was created by {{ team.created_by }} on {{ team.created_on }}</p>
     {% endifequal %}

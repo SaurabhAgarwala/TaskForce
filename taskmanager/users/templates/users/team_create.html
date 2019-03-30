@@ -10,7 +10,7 @@
     <form class="team_create_form" action="{% url 'users:new-team' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="New Team Created">
+        <input type="submit" value="Create New Team">
     </form>
 </body>
 {% endblock %}
