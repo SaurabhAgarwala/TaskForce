@@ -4,17 +4,17 @@
 <title>Team Details - Task Manager</title> 
 
 {% block one %}
-    <h1 id="detailhead">{{ team.name }}</h1>
-    <a href="{% url 'users:userpage' %}">Go Back To User HomePage</a>
+<div class="w3-row-padding w3-center w3-padding-64" id="contents">
+    <h1 id="detailhead"><u>{{ team.name }}</u></h1>
     {% ifequal team.created_by user.username %}
-        <p>This team was created by you on {{ team.created_on }}</p>
-        <a href="{% url 'users:team-edit' id=team.pk %}"><input type="button" value="Edit this team"></a>
-        <a href="{% url 'users:team-delete' id=team.pk %}"><input type="button" value="Delete this team"></a>
+        <p>This team was created by <strong>you</strong> on <strong>{{ team.created_on }}</strong></p>
+        <a href="{% url 'users:team-edit' id=team.pk %}"><input type="button" value="Edit this team" class="w3-button w3-center w3-theme"></a>&nbsp;
+        <a href="{% url 'users:team-delete' id=team.pk %}"><input type="button" value="Delete this team" class="w3-button w3-center w3-theme"></a>
     {% else %}
-        <p>This team was created by {{ team.created_by }} on {{ team.created_on }}</p>
+        <p>This team was created by <strong>{{ team.created_by }}</strong> on <strong>{{ team.created_on }}</strong></p>
     {% endifequal %}
     <div>
-        <p>Members of this team:</p>
+        <p><strong><u>Members of this team:</u></strong></u></p>
         <ul>
         {% for user in users %}
             <li>{{ user.username }}</li>
@@ -23,19 +23,22 @@
     </div>
     <div>
         {% if tasks %}
-            <p>The following are the tasks linked with this team. Click on any of the task to get more details about it.</p>
+            <p><strong>The following are the tasks linked with this team. Click on any of the task to get more details about it.</strong></p>
             <ul>
-            {% for task in tasks %}   <!--  Assign link to tasks -->
-                <li>{{ task.title }}
-                    {% if task.deadline %} To be completed by {{ task.deadline }} {% endif %}.
-                    Assigned by - {{ task.created_by }}.
-                    Current Status - {{ task.status }}
+            {% for task in tasks %}
+                <li>
+                    <a href="{% url 'tasks:task-disp' id=task.id %}">
+                        {{ task.title }}{% if task.team %} - {{ task.team }}{% endif %}.
+                        {% if task.deadline %} To be completed by {{ task.deadline }} {% endif %}.
+                        Assigned by - {{ task.created_by }}. 
+                        Current Status - {{ task.status }}
+                    </a>
                 </li>
             {% endfor %}
             </ul>   
         {% else %}
-            <p>There are no tasks associated with this team.</p>
+            <p><strong>There are no tasks associated with this team.</strong></p>
         {% endif %}
     </div>
-    
+</div>
 {% endblock %}

@@ -5,13 +5,13 @@
 {% block one %}
 <title>Message Page - Task Manager</title>
 
-<body>
-    <h1 id="detailhead">Message Page</h1>
+<div class="w3-center" style="width: 80%; margin: 3% 10% 3% 10%" id="contents">
+    <h1 id="detailhead"><u>Message:</u></h1>
     <div>
         <h3>{{ message }}</h3>
     </div>
     <div>
-        <a href="{% url 'users:userpage' %}">Click Here to return to the User Homepage.</a>
+        <a href="{% url 'users:userpage' %}#contents">Click Here to return to the User Homepage.</a>
     </div>
-</body>
+</div>
 {% endblock %}

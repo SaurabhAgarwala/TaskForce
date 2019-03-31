@@ -8,50 +8,34 @@
         <!-- <title>TaskManager</title> -->
         <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
         <link href="https://fonts.googleapis.com/css?family=Arvo|Tangerine" rel="stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
-    <body>
-        <div class="container">
-        <header>
-            {% if user.is_authenticated %}
-            <div class="row">
-                <h1 class="title"><a href="{% url 'users:userpage' %}">TaskManager</a></h1>
+    <body id="myPage">
+            <div class="w3-top">
+                    <div class="w3-bar w3-theme-d2 w3-left-align">
+                     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href=""><i class="fa fa-bars"></i></a>
+                     <a href="{% url 'users:userpage' %}#contents" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>User HomePage</a>
+                     <a href="{% url 'tasks:new-task' %}#contents" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Create a New Task</a>
+                     <a href="{% url 'users:new-team' %}#contents" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Create a New Team</a>
+                    {% if user.is_authenticated %}  
+                        <a href="{% url 'users:logout' %}#contents" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal">Logout</a>
+                        <a href="" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal">Logged In as {{ user.username }}</a>
+                    {% else %}
+                        <a href="{% url 'users:login' %}#contents" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal">Log In</a>
+                        <a href="{% url 'users:signup' %}#contents" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal">SignUp</a>
+                    {% endif %}
+                    </div>
             </div>
-            <div class="row"> 
-            <div class="col-md-7">
-                <p class="line">Create and Manage Tasks</p>
-            </div>
-            <nav class="navi col-md-5">
-                <span>Logged In as {{ user.username }}</span>
-                <!-- <form class="" action="{% url 'users:logout' %}" method="POST">
-                    {% csrf_token %} -->
-                <a href="{% url 'users:logout' %}"><input type="submit" class="btn btn-info" value="Log Out"></a>
-                <!-- </form> -->
-            </nav>
-            </div>  
-            {% else %}
-            <div class="row">                   
-                <h1 class="title"><a href="{% url 'users:new-team' %}">TaskManager</a></h1>
-            </div>
-            <div class="row"> 
-                <div class="col-md-7">
-                    <p class="line">Login to Create and Manage Tasks.</p>
-                </div>
-                <br>
-                <div class="nav col-md-5">
-                    <!-- <form class="col-md-6" action="{% url 'users:login' %}" method="POST">
-                        {% csrf_token %} -->
-                    <a href="{% url 'users:login' %}"><input type="submit" class="btn btn-info" value="Log In"></a>    
-                    <!-- </form> -->
-                    <!-- <form class="col-md-6" action="{% url 'users:signup' %}" method="POST">
-                        {% csrf_token %} -->
-                    <a href="{% url 'users:signup' %}"><input type="submit" class="btn btn-info" value="Sign Up"></a>
-                    <!-- </form> -->
+            <div class="w3-display-container w3-animate-opacity">
+                <img src="{% static 'bg.jpeg' %}" alt="background" style="width:100%;min-height:350px;max-height:675px;">
+                <div class="w3-container w3-display-bottomleft w3-margin-bottom">
+                <a href="{% url 'users:userpage' %}#contents"><button class="w3-button w3-xxxlarge w3-theme w3-hover-teal" title="Go To Homepage">Task Manager</button></a>
                 </div>
             </div>
-            {% endif %}
         </header>        
         <div class="wrap">
             {% block one %}

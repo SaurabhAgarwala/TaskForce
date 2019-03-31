@@ -4,17 +4,14 @@
 <title>Task Manager</title>
 
 {% block one %}
-<body>
-    <h1 id="detailhead">Welcome {{ user.username }}</h1>
-    <a href="{% url 'tasks:new-task' %}">Create a new task</a>
-    <a href="{% url 'users:new-team' %}">Create a new team</a>
+<div style="width: 80%; margin: 3% 10% 3% 10%" id="contents">
     <div>
         {% if tasks %}
-            <p>The following are the tasks that you have been assigned. Click on any of the task to get more details about it.</p>
+            <h3>The following are the tasks that you have been assigned. Click on any of the task to get more  details about it.</h3>
             <ul>
-            {% for task in tasks %}   <!--  Assign link to tasks -->
+            {% for task in tasks %}  
                 <li>
-                    <a href="{% url 'tasks:task-disp' id=task.id %}">
+                    <a href="{% url 'tasks:task-disp' id=task.id %}#contents">
                         {{ task.title }}{% if task.team %} - {{ task.team }}{% endif %}.
                         {% if task.deadline %} To be completed by {{ task.deadline }} {% endif %}.
                         Assigned by - {{ task.created_by }}. 
@@ -24,22 +21,22 @@
             {% endfor %}
             </ul>   
         {% else %}
-            <p>You have been assigned no tasks</p>
+            <h3>You have been assigned no tasks</h3>
         {% endif %}
     </div>
     <div>
         {% if teams %}
-            <p>You are a member of the following teams. Click on any of the team to see the tasks in that team.</p>
+            <h3>You are a member of the following teams. Click on any of the team to see the tasks in that team.</h3>
         {% for team in teams %}
         <li>
-            <a href="{% url 'users:team-disp' id=team.id %}">{{ team.name }}</a>
+            <a href="{% url 'users:team-disp' id=team.id %}#contents">{{ team.name }}</a>
         </li>
         {% endfor %}
         {% else %}
-        <p>
+        <h3>
             You are not a member of any team.
-        </p>
+        </h3>
         {% endif %}
     </div>
-</body>
+</div>
 {% endblock %}
