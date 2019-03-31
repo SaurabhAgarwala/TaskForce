@@ -4,9 +4,9 @@ from users.models import Team
 
 # Create your models here.
 STATUS = (
-    ('planned', 'Planned'),
-    ('inprogress', 'In Progress'),
-    ('done', 'Done'),
+    ('Planned', 'Planned'),
+    ('In Progress', 'In Progress'),
+    ('Done', 'Done'),
 )
 
 class Task(models.Model):

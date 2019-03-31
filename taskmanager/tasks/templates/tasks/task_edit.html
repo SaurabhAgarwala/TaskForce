@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block one %}
+<title>Edit Task</title>
+
+<body>
+    <h1 id="detailhead">Edit Task</h1>
+    <form class="task_edit_form" action="{% url 'tasks:task-edit' id=task.pk %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Edit Task">
+    </form>
+</body>
+{% endblock %}  

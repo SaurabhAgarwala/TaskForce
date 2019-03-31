@@ -26,7 +26,7 @@ def create_task(request):
                 team = form.cleaned_data['team']
                 if team == None:
                     form = forms.TeamlessTaskForm()
-                    return render(request, 'tasks/task_create.html', {'form':form})
+                    return render(request, 'tasks/selfassigned_taskcreate.html', {'form':form})
                 else:
                     team_obj = Team.objects.get(name=team)
                     form = forms.GetTeamTaskForm(team_obj.users)
@@ -40,6 +40,17 @@ def create_task(request):
             return render(request, 'tasks/post_teamtask_create.html', {'form':form})
 
 @login_required(login_url="/")
+def create_selfassigned_task(request):
+    if request.method == 'POST':
+        form = forms.TeamlessTaskForm(request.POST)
+        if form.is_valid():
+            s_instance = form.save()
+            s_instance.created_by =  request.user.username
+            s_instance.assignee = [request.user]
+            s_instance.save()
+            return redirect('users:userpage')
+
+@login_required(login_url="/")
 def create_teamtask(request):
     if request.method == 'POST':
         form = forms.PostTeamTaskForm(request.POST)
@@ -51,7 +62,75 @@ def create_teamtask(request):
             s_instance.team = team_obj
             s_instance.save()
         return redirect('users:userpage')
-    
+
+@login_required(login_url="/")
+def task_display(request,id):
+    task = Task.objects.get(pk=id)
+    assignees = task.assignee.all()
+    context = {
+        'user': request.user,
+        'task': task,
+        'assignees': assignees
+    }
+    return render(request, 'tasks/task_display.html', context)    
+
+@login_required(login_url="/")
+def task_edit(request, id):  
+    task = Task.objects.get(pk=id)
+    if task.created_by != request.user.username:
+        context = {
+            'message': 'You are not allowed to access this page' 
+        }
+        return render(request, 'message.html', context)
+    user = request.user
+    teams = user.team_set.all()
+    if request.method == 'POST':
+        if len(teams)==0:
+            form = forms.TeamlessTaskForm(request.POST)
+            task.delete()
+            if form.is_valid():
+                s_instance = form.save()
+                s_instance.created_by =  request.user.username
+                s_instance.assignee = [user]
+                s_instance.save()
+                context = {
+                    'message': 'Task successfully edited.' 
+                }
+                return render(request, 'message.html', context)
+        else:
+            form = forms.EditTeamTaskForm(request.POST)
+            team = task.team
+            task.delete()
+            if form.is_valid():
+                s_instance = form.save()
+                s_instance.created_by =  request.user.username
+                s_instance.team = team
+                s_instance.save()
+                context = {
+                    'message': 'Team successfully edited.' 
+                }
+                return render(request, 'message.html', context)
+    else:
+        if len(teams)==0:
+            form = forms.TeamlessTaskForm(instance=task)
+            return render(request, 'tasks/task_edit.html', {'form':form, 'task':task})
+        else:
+            form = forms.EditTeamTaskForm(instance=task)
+            return render(request, 'tasks/teamtask_edit.html', {'form':form, 'task':task})
+
+@login_required(login_url="/")
+def task_delete(request, id):
+    task = Task.objects.get(id=id)
+    if task.created_by != request.user.username:
+        context = {
+            'message': 'You are not allowed to access this page' 
+        }
+        return render(request, 'message.html', context)
+    task.delete()
+    context = {
+        'message': 'Task successfully deleted.' 
+    }
+    return render(request, 'message.html', context)
 
 @login_required(login_url="/")
 def comment(request, num):

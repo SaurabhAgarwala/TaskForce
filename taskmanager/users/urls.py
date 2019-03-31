@@ -5,7 +5,7 @@ app_name = 'users'
 
 urlpatterns = [
    url(r'^signup/$', views.signup_view, name="signup"),
-   # url(r'^login/$', views.login_view, name="login"),
+   url(r'^login/$', views.login_view, name="login"),
    url(r'^logout/$', views.logout_view, name="logout"),
    url(r'^newteam/$', views.create_team, name="new-team"),
    url(r'^userpage/$', views.userpage, name="userpage"),

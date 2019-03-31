@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block one %}
+<title>Create Task</title>
+
+<body>
+    <h1 id="detailhead">Create Task</h1>
+    <form class="task_create_form" action="{% url 'tasks:new-selfassignedtask' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Create New Task">
+    </form>
+</body>
+{% endblock %}

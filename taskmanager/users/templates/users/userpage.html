@@ -13,10 +13,13 @@
             <p>The following are the tasks that you have been assigned. Click on any of the task to get more details about it.</p>
             <ul>
             {% for task in tasks %}   <!--  Assign link to tasks -->
-                <li>{{ task.title }}{% if task.team %} - {{ task.team }}{% endif %}.
-                    {% if task.deadline %} To be completed by {{ task.deadline }} {% endif %}.
-                    Assigned by - {{ task.created_by }}. 
-                    Current Status - {{ task.status }}
+                <li>
+                    <a href="{% url 'tasks:task-disp' id=task.id %}">
+                        {{ task.title }}{% if task.team %} - {{ task.team }}{% endif %}.
+                        {% if task.deadline %} To be completed by {{ task.deadline }} {% endif %}.
+                        Assigned by - {{ task.created_by }}. 
+                        Current Status - {{ task.status }}
+                    </a>
                 </li>
             {% endfor %}
             </ul>   

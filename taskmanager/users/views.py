@@ -13,7 +13,7 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return HttpResponse("User Created Successfully")
+            return redirect('users:userpage')
     else:
         form = UserCreationForm()
     context = {'form':form}

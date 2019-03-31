@@ -27,6 +27,12 @@ class PostTeamTaskForm(forms.ModelForm):
         model = models.Task
         exclude = ['team','created_by','created_on']
 
+class EditTeamTaskForm(forms.ModelForm):
+    class Meta: 
+        model = models.Task
+        exclude = ['team','created_by','created_on']
+
+
 class GetTeamForm(forms.ModelForm):
     def __init__(self, teams, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -61,7 +67,6 @@ class CommentForm(forms.ModelForm):
             'title',
             'content'
         ]
-
 
 class CommentReplyForm(forms.ModelForm):
 

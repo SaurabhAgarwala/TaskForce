@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+<title>Task Details - Task Manager</title> 
+
+{% block one %}
+    <h1 id="detailhead">{{ task.name }}</h1>
+    <a href="{% url 'users:userpage' %}">Go Back To User HomePage</a>
+    {% if task.team %}
+    <p>
+        Team: {{ task.team }}
+    </p>
+    {% endif %}
+    {% ifequal task.created_by user.username %}
+        <p>Created By: You Yourself</p>
+        <a href="{% url 'tasks:task-edit' id=task.pk %}"><input type="button" value="Edit this task"></a>
+        <a href="{% url 'tasks:task-delete' id=task.pk %}"><input type="button" value="Delete this task"></a>
+    {% else %}
+        <p>Created By: {{ task.created_by }}</p>
+    {% endifequal %}
+    <p>
+        Created On :{{ task.created_on }}
+    </p>
+    <p>
+        Deadline :{{ task.deadline }}
+    </p>
+    <div>
+        <p>Task Description: {{ task.description }}</p>
+    </div>
+    <div>
+        <p>Assigned To:</p>
+        <ul>
+        {% for user in assignees %}
+            {% ifequal task.created_by user.username %}
+                <li>You</li>    
+            {% else %}
+                <li>{{ user.username }}</li>
+            {% endifequal %}
+        {% endfor %}
+        </ul>
+    </div>
+    <p>
+        Current Status: {{ task.status }} 
+    </p>
+    
+{% endblock %}
