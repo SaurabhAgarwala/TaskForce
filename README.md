@@ -40,7 +40,7 @@ The folowing technologies, libraries/packages and CDNs were used for making this
 The flow of the app is quite smooth and a observer can easily follow after setting up the project.
 The test cases are all the features mentioned above which can be easily tested by using the app.
 The following are credentials of the users created by default to test the app. New users can also be created. Few teams and tasks have also been created by default.
-1.  User: saurabh
+1. SuperUser: saurabh
     Password: fossee2019
 2.  User: dev1
     Password: developer
