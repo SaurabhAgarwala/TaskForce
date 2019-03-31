@@ -66,13 +66,17 @@ def create_teamtask(request):
 @login_required(login_url="/")
 def task_display(request,id):
     task = Task.objects.get(pk=id)
-    assignees = task.assignee.all()
+    comments = task.comment_set.all()
+    assignees = task.assignee.all()    
+    commentform = forms.CommentForm()
     context = {
         'user': request.user,
         'task': task,
-        'assignees': assignees
+        'assignees': assignees,
+        'comments': comments,
+        'commentform': commentform
     }
-    return render(request, 'tasks/task_display.html', context)    
+    return render(request, 'tasks/task_display.html', context)
 
 @login_required(login_url="/")
 def task_edit(request, id):  
@@ -135,18 +139,13 @@ def task_delete(request, id):
 @login_required(login_url="/")
 def comment(request, num):
     task = Task.objects.get(id=num)
-    if request.method == 'GET':
-        form = forms.CommentForm()
-    elif request.method == 'POST':
-        form = forms.CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.task = task
-            comment.user = request.user
-            comment.save()
-            # app.votes += 1
-            # app.save()
-            return HttpResponse('Comment Added')
+    form = forms.CommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.task = task
+        comment.user = request.user
+        comment.save()
+        return redirect('tasks:task-disp', id=num)
     return render(request, 'tasks/comment.html', {'task_id':num,'form':form})
 
 @login_required(login_url="/")

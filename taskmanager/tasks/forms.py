@@ -56,6 +56,7 @@ class CommentForm(forms.ModelForm):
         super(forms.ModelForm, self).__init__(*args, **kwargs)
         self.fields['title'].required = True
         self.fields['title'].label = "Title"
+        self.fields['content'].required = True        
         self.fields['content'].label = "Comment"
 
     def clean(self):
@@ -72,6 +73,7 @@ class CommentReplyForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(forms.ModelForm, self).__init__(*args, **kwargs)
+        self.fields['content'].required = True                
         self.fields['content'].label = "Comment"
 
     def clean(self):
@@ -82,7 +84,3 @@ class CommentReplyForm(forms.ModelForm):
         fields = [
             'content'
         ]
-# class PostEditForm(forms.ModelForm):
-#     class Meta:
-#         model = models.Content
-#         fields = ['body']
