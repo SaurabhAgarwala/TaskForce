@@ -25,8 +25,8 @@ class Task(models.Model):
 class Comment(models.Model):
     task = models.ForeignKey(Task)
     user = models.ForeignKey(User)
-    title = models.CharField(max_length=50)
-    content = models.TextField()
+    title = models.CharField(max_length=25)
+    content = models.CharField(max_length=50)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -35,7 +35,7 @@ class Comment(models.Model):
 class CommentReply(models.Model):
     comment = models.ForeignKey(Comment)
     user = models.ForeignKey(User)
-    content = models.TextField()                                                                      
+    content = models.CharField(max_length=50)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

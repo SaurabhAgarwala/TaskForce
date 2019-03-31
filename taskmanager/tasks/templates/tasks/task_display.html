@@ -4,91 +4,87 @@
 <title>Task Details - Task Manager</title> 
 
 {% block one %}
-    <h1 id="detailhead">{{ task.name }}</h1>
-    <a href="{% url 'users:userpage' %}">Go Back To User HomePage</a>
+<div class="w3-row-padding w3-center w3-padding-64" id="contents">
+    <h1 id="detailhead"><u>Task Title: {{ task.title }}</u></h1>
     {% if task.team %}
-    <p>
+    <h2>
         Team: {{ task.team }}
-    </p>
+    </h2>
     {% endif %}
     {% ifequal task.created_by user.username %}
-        <p>Created By: You Yourself</p>
-        <a href="{% url 'tasks:task-edit' id=task.pk %}"><input type="button" value="Edit this task"></a>
-        <a href="{% url 'tasks:task-delete' id=task.pk %}"><input type="button" value="Delete this task"></a>
+        <p>Created By: <strong>You Yourself</strong></p>
+        <a href="{% url 'tasks:task-edit' id=task.pk %}#contents"><input type="button" value="Edit this task" class="w3-button w3-center w3-theme"></a>&nbsp;
+        <a href="{% url 'tasks:task-delete' id=task.pk %}#contents"><input type="button" value="Delete this task" class="w3-button w3-center w3-theme"></a>
     {% else %}
-        <p>Created By: {{ task.created_by }}</p>
+        <p>Created By: <strong>{{ task.created_by }}</strong></p>
     {% endifequal %}
     <p>
-        Created On :{{ task.created_on }}
+        Created On: <strong>{{ task.created_on }}</strong>
     </p>
     <p>
-        Deadline :{{ task.deadline }}
+        Deadline: <strong>{{ task.deadline }}</strong>
     </p>
     <div>
-        <p>Task Description: {{ task.description }}</p>
+        <p><u>Task Description:</u><br>
+            {{ task.description }}</p>
     </div>
     <div>
-        <p>Assigned To:</p>
+        <p><strong><u>Assigned To:</u></strong></p>
         <ul>
         {% for user in assignees %}
             {% ifequal task.created_by user.username %}
-                <li>You</li>    
+                You<br>
             {% else %}
-                <li>{{ user.username }}</li>
+                {{ user.username }}<br>
             {% endifequal %}
         {% endfor %}
         </ul>
     </div>
     <p>
-        Current Status: {{ task.status }} 
+        <b>Current Status:</b> <u>{{ task.status }}</u>
     </p>
     <div>
-        <h2>Comments:</h2>
+        <h2><u>Comments:</u></h2>
         {% if comments %}
-            <ul>
             {% for comment in comments %}
-                <li>{{ comment.title }}</li>
-                <p>{{ comment.content }}</p>
-                <p>Commented By: 
-                {% ifequal comment.user request.user %}
-                    You
+                <h4 style="margin-bottom: -2%;"><u>Title: {{ comment.title }}</u></h4><br>
+                <p>{% ifequal comment.user request.user %}
+                    <b>You:</b> 
                 {% else %}
-                    {{ comment.user }}
+                    <b>{{ comment.user }}: </b>
                 {% endifequal %}
-                 on {{ comment.timestamp }}
+                {{ comment.content }}
+                 - <em> {{ comment.timestamp }}</em>
                 </p>
                 {% if comment.commentreply_set.all %}
-                <h5>Replies:</h5>
-                <ul>
+                <h5><em>Replies:</em></h5>
                     {% for commentreply in comment.commentreply_set.all %}
-                        <li>{{ commentreply.content }}</li>
-                        <p>Replied By: 
-                            {% ifequal commentreply.user request.user %}
-                                You
+                        <p>{% ifequal commentreply.user request.user %}
+                                <b>You: </b>
                             {% else %}
-                                {{ commentreply.user }}
+                                <b>{{ commentreply.user }}: </b>
                             {% endifequal %}
-                             on {{ commentreply.timestamp }}
+                            {{ commentreply.content }} -  <em>{{ commentreply.timestamp }}</em>
                         </p>            
                     {% endfor %}
-                </ul>
                 {% endif %}
-                <p>Reply to this comment:</p>
-                <form class="commentreply_form" action="{% url 'tasks:comment-reply' num=comment.id %}" method="post">
-                        {% csrf_token %}
-                        {{ commentreplyform.as_p }}
-                        <input type="submit" value="Reply to this Comment">
-                    </form>
+                <form style="margin-bottom: 2%;" class="commentreply_form" action="{% url 'tasks:comment-reply' num=comment.id %}#contents" method="post">
+                    {% csrf_token %}
+                    {{ commentreplyform.as_p }}
+                    <br>
+                    <input type="submit" value="Reply to this Comment" class="w3-button w3-center w3-theme" style="margin-top: -3%;">
+                </form>
             {% endfor %}
             </ul>
         {% else %}
         <p>No comments present</p>
         {% endif %}
-        <h4>Create Comment:</h4>
-        <form class="comment_form" action="{% url 'tasks:comment' num=task.pk %}" method="post">
+        <h3><b>Create New Comment:</h3>
+        <form class="comment_form" action="{% url 'tasks:comment' num=task.pk %}#contents" method="post">
             {% csrf_token %}
             {{ commentform.as_p }}
-            <input type="submit" value="Comment">
+            <input type="submit" value="Comment" class="w3-button w3-center w3-theme">
+        </b>
         </form>
     </div>
     

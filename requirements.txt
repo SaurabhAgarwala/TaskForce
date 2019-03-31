@@ -1,1 +1,8 @@
-django==1.11.11
+1. Python 3.6.7
+2. Django 1.11.11
+3. django_markdownx 2.0.21
+4. HTML5
+5. CSS3
+6. Bootstrap 4.1.0
+7. W3 Schools CSS
+8. Git
