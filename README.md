@@ -2,7 +2,7 @@
 Task Manager App developed as part of FOSSEE Fellowship Selection Test - 2019.
 
 
-##Features of this Task Manager App
+## Features of this Task Manager App
 1. Allow users to Sign Up and Login after authentication.
 2. Allows authenticated users to create teams.
 3. Only the team creator can edit/delete the team.
@@ -17,7 +17,7 @@ Task Manager App developed as part of FOSSEE Fellowship Selection Test - 2019.
 12. The tasks also have a deadline field.
 
 
-##Requirements
+## Requirements
 The folowing technologies, libraries/packages and CDNs were used for making this web application:
 1. Python 3.6.7
 2. Django 1.11.11
@@ -29,14 +29,14 @@ The folowing technologies, libraries/packages and CDNs were used for making this
 8. Git
 
 
-##Setting Up the Project
+## Setting Up the Project
 1. Clone this repo
 2. Install required packages.
 3. Go to taskmanager directory which contains manage.py script.
 4. Run the command `python3 manage.py runserver`
 5. Go to http://127.0.0.1:8000
 
-##TestCases
+## TestCases
 The flow of the app is quite smooth and a observer can easily follow after setting up the project.
 The test cases are all the features mentioned above which can be easily tested by using the app.
 The following are credentials of the users created by default to test the app. New users can also be created. Few teams and tasks have also been created by default.
@@ -58,4 +58,3 @@ The following are credentials of the users created by default to test the app. N
     Password: intelligence
 9.  User: int2
     Password: intelligence
-
