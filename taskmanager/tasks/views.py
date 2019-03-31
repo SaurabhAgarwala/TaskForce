@@ -69,12 +69,14 @@ def task_display(request,id):
     comments = task.comment_set.all()
     assignees = task.assignee.all()    
     commentform = forms.CommentForm()
+    commentreplyform = forms.CommentReplyForm()
     context = {
         'user': request.user,
         'task': task,
         'assignees': assignees,
         'comments': comments,
-        'commentform': commentform
+        'commentform': commentform,
+        'commentreplyform': commentreplyform
     }
     return render(request, 'tasks/task_display.html', context)
 
@@ -146,21 +148,14 @@ def comment(request, num):
         comment.user = request.user
         comment.save()
         return redirect('tasks:task-disp', id=num)
-    return render(request, 'tasks/comment.html', {'task_id':num,'form':form})
 
 @login_required(login_url="/")
 def commentreply(request, num):
     comment = Comment.objects.get(id=num)
-    if request.method == 'GET':
-        form = forms.CommentReplyForm()
-    elif request.method == 'POST':
-        form = forms.CommentReplyForm(request.POST)
-        if form.is_valid():
-            commentreply = form.save(commit=False)
-            commentreply.comment = comment
-            commentreply.user = request.user
-            commentreply.save()
-            # app.votes += 1
-            # app.save()
-            return HttpResponse(' Reply to Comment Added')
-    return render(request, 'tasks/commentreply.html', {'comment_id':num,'form':form})
+    form = forms.CommentReplyForm(request.POST)
+    if form.is_valid():
+        commentreply = form.save(commit=False)
+        commentreply.comment = comment
+        commentreply.user = request.user
+        commentreply.save()
+        return redirect('tasks:task-disp', id=comment.task.id)

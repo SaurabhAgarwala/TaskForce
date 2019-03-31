@@ -55,16 +55,39 @@
                 {% else %}
                     {{ comment.user }}
                 {% endifequal %}
+                 on {{ comment.timestamp }}
+                </p>
+                {% if comment.commentreply_set.all %}
+                <h5>Replies:</h5>
+                <ul>
+                    {% for commentreply in comment.commentreply_set.all %}
+                        <li>{{ commentreply.content }}</li>
+                        <p>Replied By: 
+                            {% ifequal commentreply.user request.user %}
+                                You
+                            {% else %}
+                                {{ commentreply.user }}
+                            {% endifequal %}
+                             on {{ commentreply.timestamp }}
+                        </p>            
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <form class="commentreply_form" action="{% url 'tasks:comment-reply' num=comment.id %}" method="post">
+                        {% csrf_token %}
+                        {{ commentreplyform.as_p }}
+                        <input type="submit" value="Reply">
+                    </form>
             {% endfor %}
             </ul>
         {% else %}
         <p>No comments present</p>
         {% endif %}
-        <h4>Create Comment:</h4>
+        <h4>Create New Comment:</h4>
         <form class="comment_form" action="{% url 'tasks:comment' num=task.pk %}" method="post">
             {% csrf_token %}
             {{ commentform.as_p }}
-            <input type="submit" value="Comment">
+            <input type="submit" value="Create New Comment">
         </form>
     </div>
     

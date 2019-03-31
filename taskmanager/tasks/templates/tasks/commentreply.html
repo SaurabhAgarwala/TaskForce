@@ -10,7 +10,7 @@
     <form class="comment_form" action="{% url 'tasks:comment-reply' num=comment_id %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Comment">
+        <input type="submit" value="Reply to this Comment">
     </form>
 </body>
 {% endblock %}

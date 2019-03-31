@@ -74,7 +74,7 @@ class CommentReplyForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(forms.ModelForm, self).__init__(*args, **kwargs)
         self.fields['content'].required = True                
-        self.fields['content'].label = "Comment"
+        self.fields['content'].label = "Reply to this Comment"
 
     def clean(self):
         return self.cleaned_data
