@@ -1,8 +1,8 @@
-# fsf_2019_screening_task1
-Task Manager App developed as part of FOSSEE Fellowship Selection Test - 2019.
+# TaskForce
+TaskForce is an app developed as part of IIT-Bombay FOSSEE Fellowship Selection Test - 2019.
 
 
-## Features of this Task Manager App
+## Features of this TaskForce
 1. Allow users to Sign Up and Login after authentication.
 2. Allows authenticated users to create teams.
 3. Only the team creator can edit/delete the team.
