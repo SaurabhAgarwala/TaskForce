@@ -23,8 +23,8 @@ class Task(models.Model):
         return self.title
 
 class Comment(models.Model):
-    task = models.ForeignKey(Task)
-    user = models.ForeignKey(User)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=25)
     content = models.CharField(max_length=50)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -33,8 +33,8 @@ class Comment(models.Model):
         return 'Comment on %s by %s' % (self.task.title, self.user.username)
 
 class CommentReply(models.Model):
-    comment = models.ForeignKey(Comment)
-    user = models.ForeignKey(User)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.CharField(max_length=50)
     timestamp = models.DateTimeField(auto_now_add=True)
 
