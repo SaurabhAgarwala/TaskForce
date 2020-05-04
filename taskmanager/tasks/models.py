@@ -10,7 +10,7 @@ STATUS = (
 )
 
 class Task(models.Model):
-    team = models.ForeignKey(Team,on_delete=models.CASCADE, null=True, blank=True)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=100)
     description = models.TextField()
     assignee = models.ManyToManyField(User)
